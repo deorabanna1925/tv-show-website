@@ -29,7 +29,7 @@ input.focus();
 
 search.addEventListener("click", function () {
   if (input.value === "") {
-    console.log("Please enter a tv show");
+    alert("Please enter a tv show");
   } else {
     //   set new window url
     var newUrl = "?query=" + input.value;
@@ -118,7 +118,6 @@ function convertDate(string) {
 }
 
 function displayShowSeasons(data) {
-  console.log(data);
   episodes.innerHTML = "";
   var seasonTitle = document.createElement("h4");
   seasonTitle.innerHTML = "Select Season";
@@ -192,7 +191,7 @@ function displayShowEpisodes(data, episodeList) {
     episodeCardImage.style.objectFit = "cover";
     if (episode.image != null) {
       episodeCardImage.src = episode.image.original;
-    }else {
+    } else {
       episodeCardImage.src = "https://via.placeholder.com/250x250";
     }
     var episodeCardName = document.createElement("h5");
@@ -200,10 +199,11 @@ function displayShowEpisodes(data, episodeList) {
     episodeCardName.innerHTML = episode.name;
     var episodeCardRating = document.createElement("p");
     episodeCardRating.classList.add("card-text");
-    episodeCardRating.innerHTML = "<b>Rating: </b>" + episode.rating.average + "★";
+    episodeCardRating.innerHTML =
+      "<b>Rating: </b>" + episode.rating.average + "★";
     var episodeType = document.createElement("span");
     episodeType.classList.add("badge");
-    if(episode.type == "regular") {
+    if (episode.type == "regular") {
       episodeType.classList.add("bg-primary");
       episodeType.innerHTML = "Regular";
     } else if (episode.type == "insignificant_special") {
@@ -240,7 +240,6 @@ function displayShowEpisodes(data, episodeList) {
 }
 
 function createUrl(data) {
-
   // get all Episode Names and Ratings
   var episodeNames = [];
   var episodeRatings = [];
@@ -249,7 +248,7 @@ function createUrl(data) {
     episodeNames.push(episode.name);
     episodeRatings.push(episode.rating.average);
   }
-  var baseUrl = 'https://image-charts.com/chart.js/2.8.0?bkg=black&c=';
+  var baseUrl = "https://image-charts.com/chart.js/2.8.0?bkg=black&c=";
   // create json object with data for chart.js
   var data = {
     labels: episodeNames,
@@ -260,23 +259,20 @@ function createUrl(data) {
         borderWidth: 1,
         fill: false,
         data: episodeRatings,
-        backgroundColor: [
-          "rgb(52, 188, 62)",
-        ]
+        backgroundColor: ["rgb(52, 188, 62)"],
       },
     ],
   };
   var mainData = {
     type: "line",
     data: data,
-  }
+  };
   // create url with data for chart.js
   var url = baseUrl + JSON.stringify(mainData);
   return url;
 }
 
 function displayShowCast(data) {
-  console.log(data);
   castList.innerHTML = "";
   var castTitle = document.createElement("h4");
   castTitle.innerHTML = "Cast";
@@ -332,6 +328,43 @@ function displayShowCast(data) {
   }
 }
 
+function displayShowCrew(data) {
+  console.log(data);
+  crewList.innerHTML = "";
+  var crewTitle = document.createElement("h4");
+  crewTitle.innerHTML = "Crew";
+  crewList.appendChild(crewTitle);
+  for (var i = 0; i < data.length; i++) {
+    var crew = document.createElement("div");
+    crew.classList.add("row");
+    crew.classList.add("mb-3");
+    crew.style.margin = "10px";
+    var crewCard = document.createElement("div");
+    crewCard.classList.add("card");
+    crewCard.classList.add("col-md-3");
+    var crewCardBody = document.createElement("div");
+    crewCardBody.classList.add("card-body");
+    var crewCardName = document.createElement("h6");
+    crewCardName.classList.add("card-title");
+    crewCardName.innerHTML = data[i].person.name;
+    var crewCardType = document.createElement("p");
+    crewCardType.classList.add("card-text");
+    crewCardType.innerHTML = data[i].type;
+    var crewCardImage = document.createElement("img");
+    if (data[i].person.image.medium != null) {
+      crewCardImage.src = data[i].person.image.medium;
+    }
+    crewCardImage.classList.add("img-fluid");
+    crewCardImage.style.borderRadius = "8px";
+    crewCardBody.appendChild(crewCardName);
+    crewCardBody.appendChild(crewCardType);
+    crewCardBody.appendChild(crewCardImage);
+    crewCard.appendChild(crewCardBody);
+    crew.appendChild(crewCard);
+    crewList.appendChild(crew);
+  }
+}
+
 function displayShowImages(data) {
   for (var i = 0; i < data.length; i++) {
     if (data[i].type == "background") {
@@ -346,7 +379,6 @@ function displayShowImages(data) {
 }
 
 function displaySearchResult(data) {
-  console.log(data);
   searchResult.innerHTML = "";
   for (var i = 0; i < data.length; i++) {
     var searchItem = document.createElement("div");
@@ -377,7 +409,6 @@ function displaySearchResult(data) {
 }
 
 function displayShowResult(data) {
-  console.log(data);
   searchResult.innerHTML = "";
   title.innerHTML = data.name;
   showImage.src = data.image.original;
@@ -390,7 +421,6 @@ function displayShowResult(data) {
   }
   showRatings.setAttribute("data-star", data.rating.average);
   showRatings.title = "Ratings: " + data.rating.average;
-  console.log("https://www.imdb.com/title/" + data.externals.imdb);
   btnImdb.setAttribute(
     "onclick",
     "visitImdb('https://www.imdb.com/title/" + data.externals.imdb + "')"
