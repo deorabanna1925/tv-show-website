@@ -282,8 +282,10 @@ function displayShowCast(data) {
   castDiv.style.margin = "10px";
   for (var i = 0; i < data.length; i++) {
     var cast = document.createElement("div");
-    cast.classList.add("col-md-3");
-    cast.classList.add("mb-3");
+    cast.classList.add("col-md-2");
+    cast.classList.add("m-3");
+    cast.classList.add("p-0");
+    cast.classList.add("card");
     // cast contain a horizontal card with 2 images and 1 h4 tag
     var personImage = document.createElement("img");
     var personName = document.createElement("h6");
@@ -300,31 +302,32 @@ function displayShowCast(data) {
       characterImage.src = "https://via.placeholder.com/210x295";
     }
     personImage.classList.add("img-fluid");
+    personImage.classList.add("card-img-top");
     characterImage.classList.add("img-fluid");
-    personImage.style.borderRadius = "8px";
-    characterImage.style.borderRadius = "8px";
+    characterImage.classList.add("card-img-bottom");
     personName.innerHTML = data[i].person.name;
+    personName.style.textAlign = "center";
     characterName.innerHTML = data[i].character.name;
-    // person name and character name are card headers
-    var personHeader = document.createElement("div");
-    personHeader.classList.add("card-header");
-    personHeader.appendChild(personName);
-    var characterHeader = document.createElement("div");
-    characterHeader.classList.add("card-header");
-    characterHeader.appendChild(characterName);
-    // person image and character image are card body
-    var personBody = document.createElement("div");
-    personBody.classList.add("card-body");
-    personBody.appendChild(personImage);
-    var characterBody = document.createElement("div");
-    characterBody.classList.add("card-body");
-    characterBody.appendChild(characterImage);
-    personHeader.appendChild(personBody);
-    characterHeader.appendChild(characterBody);
-    cast.appendChild(personHeader);
-    cast.appendChild(characterHeader);
+    characterName.style.textAlign = "center";
+
+    var crewCardBody = document.createElement("div");
+    crewCardBody.classList.add("card-body");
+
+    var middleText = document.createElement("p");
+    middleText.innerHTML = "as";
+    middleText.style.fontSize = "14px";
+    middleText.style.fontStyle = "italic";
+
+    crewCardBody.appendChild(personName);
+    crewCardBody.appendChild(middleText);
+    crewCardBody.appendChild(characterName);
+
+    cast.appendChild(personImage);
+    cast.appendChild(crewCardBody);
+    cast.appendChild(characterImage);
     castDiv.appendChild(cast);
     castList.appendChild(castDiv);
+  
   }
 }
 
@@ -335,33 +338,35 @@ function displayShowCrew(data) {
   crewTitle.innerHTML = "Crew";
   crewList.appendChild(crewTitle);
   for (var i = 0; i < data.length; i++) {
-    var crew = document.createElement("div");
-    crew.classList.add("row");
-    crew.classList.add("mb-3");
-    crew.style.margin = "10px";
     var crewCard = document.createElement("div");
     crewCard.classList.add("card");
-    crewCard.classList.add("col-md-3");
+    crewCard.classList.add("col-md-2");
+    crewCard.classList.add("p-0");
+    crewCard.classList.add("m-3");
     var crewCardBody = document.createElement("div");
     crewCardBody.classList.add("card-body");
-    var crewCardName = document.createElement("h6");
+    var crewCardName = document.createElement("h5");
     crewCardName.classList.add("card-title");
     crewCardName.innerHTML = data[i].person.name;
     var crewCardType = document.createElement("p");
     crewCardType.classList.add("card-text");
+    crewCardType.classList.add("text-muted");
+    crewCardType.style.fontSize = "14px";
+    crewCardType.style.fontStyle = "italic";
     crewCardType.innerHTML = data[i].type;
     var crewCardImage = document.createElement("img");
     if (data[i].person.image.medium != null) {
       crewCardImage.src = data[i].person.image.medium;
     }
     crewCardImage.classList.add("img-fluid");
-    crewCardImage.style.borderRadius = "8px";
+    crewCardImage.classList.add("w-100");
+    crewCardImage.classList.add("card-img-top");
     crewCardBody.appendChild(crewCardName);
     crewCardBody.appendChild(crewCardType);
-    crewCardBody.appendChild(crewCardImage);
+    crewCard.appendChild(crewCardImage);
     crewCard.appendChild(crewCardBody);
-    crew.appendChild(crewCard);
-    crewList.appendChild(crew);
+    crewList.appendChild(crewCard);
+    crewList.style.justifyContent = "center";
   }
 }
 
